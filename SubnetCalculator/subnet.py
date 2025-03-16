@@ -25,33 +25,44 @@ tk_ent_ip_block_C = tk.Entry(width=3)
 tk_ent_ip_block_D = tk.Entry(width=3)
 
 #Spin:
-tk_spin_subnet_count = tk.Spinbox(from_=2, to=16, increment=2, width=3, command=lambda:selected_spin)
+tk_spin_subnet_count = tk.Spinbox(from_=1, to=16, increment=1, width=3, state="readonly", command=lambda:selected_spin)
 
 #Buttons:
-tk_btn_calculate = tk.Button(text="Calculate", font=("Arial",14,"bold"), command=lambda:subnet_calculate())
+tk_btn_calculate = tk.Button(text="Calculate", font=("Arial",14,"bold"), command=lambda:result_print())
+tk_btn_reset_form = tk.Button(text="Reset", font=("Arial",14,""), command=lambda:reset_form())
 
 #Scrolled Text:
 tk_text_result = scrolledtext.ScrolledText(width=70,height=30, font=("Courier",14))
+
+def reset_form():
+    tk_ent_ip_block_A.delete(0,tk.END)
+    tk_ent_ip_block_B.delete(0,tk.END)
+    tk_ent_ip_block_C.delete(0,tk.END)
+    tk_text_result.delete(1.0, tk.END)
+    tk_spin_subnet_count.delete(0,"end")
+    tk_ent_ip_block_A.focus()
+
+
 
 def selected_spin():
     subnet_count = tk_spin_subnet_count.get()
     return subnet_count
 
-def result_print(param):
+def result_print():
     #FORM-VARIABLES:
     ip_A = int(tk_ent_ip_block_A.get())
     ip_B = int(tk_ent_ip_block_B.get())
     ip_C = int(tk_ent_ip_block_C.get())
-    ip_D = int(tk_ent_ip_block_D.get())
+    #ip_D = int(tk_ent_ip_block_D.get())
 
-    i=1
+    i=1; a=1
     count = int(selected_spin())
     pows = int(pow(2,count)-2)
     increase = int(pows/count)
-    result = ""
+    result = ""; tk_text_result.delete(1.0, tk.END)
 
     while(True):
-        firstIP = i
+        firstIP = a
         lastIP = increase
         broadcastIP = lastIP + 1
         result+= f"{i}.Network:\n"
@@ -59,22 +70,15 @@ def result_print(param):
         result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
         result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
         
-        if i == count:
+        if i == int(pow(2,count)):
             break
         else:
             i+= 1
-    return result
+            a+=increase
 
-def subnet_calculate(): 
-    match int(selected_spin()):
-        case 1:
-            result = result_print(1)
-        case 2:
-            result = result_print(2)   
-        case 4:
-            result = result_print(4) 
 
     tk_text_result.insert(tk.INSERT, chars = result)
+    
 
     
 
@@ -95,11 +99,16 @@ tk_lbl_point_2.place(x=dx+160,y=dy+10)
 tk_ent_ip_block_C.place(x=dx+165, y=dy+10)
 tk_lbl_point_3.place(x=dx+200,y=dy+10)
 tk_ent_ip_block_D.place(x=dx+205, y=dy+10)
+tk_ent_ip_block_D.insert(0,"X")
+tk_ent_ip_block_D.config(state="readonly")
+
+
 
 tk_lbl_subnet_count.place(x=dx+10,y=dy+50)
 tk_spin_subnet_count.place(x=dx+103, y=dy+45)
 
 tk_btn_calculate.place(x=dx+155,y=dx+45)
+tk_btn_reset_form.place(x=dx+260, y=dy+45)
 
 tk_text_result.place(x=dx+10,y=dx+90)
 
