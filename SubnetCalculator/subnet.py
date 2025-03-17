@@ -63,8 +63,6 @@ def result_print():
         subnet = int(pow(2,count))
         increase = int(pow(2,(8-count)))
         subnet_mask = 256-increase
-    
-        #print(f"count:{count}\nsubnet:{subnet}\nincrease:{increase}")
 
         result = ""
         tk_text_result.delete(1.0, tk.END)
