@@ -1,8 +1,8 @@
+from tkinter import *
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import messagebox as mg
 import os
-#import ImageTk as img
 
 ip_address=[0,0,0,0]
 subnet_mask=0
@@ -20,6 +20,12 @@ tk_lbl_point_1 = tk.Label(text=".")
 tk_lbl_point_2 = tk.Label(text=".")
 tk_lbl_point_3 = tk.Label(text=".")
 tk_lbl_subnet_count = tk.Label(text="Subnet Divisions:")
+
+logo = PhotoImage(file="SubnetCalculator/network-logo-1.jpg")
+
+
+tk_lbl_image = Label(window, image=logo)
+
 
 #Entry's:
 tk_ent_ip_block_A = tk.Entry(width=3)
@@ -142,6 +148,7 @@ tk_lbl_point_3.place(x=dx+200,y=dy+10)
 tk_ent_ip_block_D.place(x=dx+205, y=dy+10)
 tk_ent_ip_block_D.insert(0," X")
 tk_ent_ip_block_D.config(state="readonly")
+tk_lbl_image.place(x=dx+400, y=dy+10)
 
 tk_lbl_subnet_count.place(x=dx+10,y=dy+50)
 tk_spin_subnet_count.place(x=dx+123, y=dy+45)
