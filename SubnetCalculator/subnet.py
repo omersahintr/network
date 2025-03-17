@@ -25,7 +25,7 @@ tk_ent_ip_block_C = tk.Entry(width=3)
 tk_ent_ip_block_D = tk.Entry(width=3)
 
 #Spin:
-tk_spin_subnet_count = tk.Spinbox(from_=1, to=8, increment=1, width=3, state="readonly", command=lambda:selected_spin)
+tk_spin_subnet_count = tk.Spinbox(from_=1, to=6, increment=1, width=3, state="readonly", command=lambda:selected_spin)
 
 #Buttons:
 tk_btn_calculate = tk.Button(text="Calculate", font=("Arial",14,"bold"), command=lambda:result_print())
@@ -43,9 +43,8 @@ def reset_form():
     tk_ent_ip_block_A.focus()
    
 def print_form():
-    stringData = tk_text_result.get(1.0,tk.END)
-    os.path.join(os.getcwd(),".","ee.pdf")
-    
+    pass
+
 
 def selected_spin():
     subnet_count = tk_spin_subnet_count.get()
@@ -62,6 +61,7 @@ def result_print():
     count = int(selected_spin())
     subnet = int(pow(2,count))
     increase = int(pow(2,(8-count)))
+    subnet_mask = 256-increase
    
     #print(f"count:{count}\nsubnet:{subnet}\nincrease:{increase}")
 
@@ -70,7 +70,7 @@ def result_print():
     firstIP = a
     lastIP = increase-2
     broadcastIP = lastIP + 1
-    result+= f"{i}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}):\n"
+    result+= f"{i}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.255.{subnet_mask}):\n"
     result+= f"First IP: {ip_A}.{ip_B}.{ip_C}.{firstIP}\n"
     result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
     result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
@@ -80,7 +80,7 @@ def result_print():
         firstIP = firstIP+increase
         lastIP = lastIP+increase
         broadcastIP = lastIP + 1
-        result+= f"{i+1}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}):\n"
+        result+= f"{i+1}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.255.{subnet_mask}):\n"
         result+= f"First IP: {ip_A}.{ip_B}.{ip_C}.{firstIP}\n"
         result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
         result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
@@ -91,7 +91,7 @@ def result_print():
 
 
     result+=f"\n\nTotal Subnet Count: {subnet}"
-    result+=f"\nTotal IP Count by Subnet: {increase}"       
+    result+=f"\nTotal IP Count by Subnet: {increase-2}"       
     tk_text_result.insert(tk.INSERT, chars = result)
 
 
