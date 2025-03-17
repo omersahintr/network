@@ -1,0 +1,24 @@
+1.Network(1.1.1.0):
+First IP: 1.1.1.1
+Last IP: 1.1.1.62
+Broadcast IP: 1.1.1.63
+
+2.Network(1.1.1.64):
+First IP: 1.1.1.65
+Last IP: 1.1.1.126
+Broadcast IP: 1.1.1.127
+
+3.Network(1.1.1.128):
+First IP: 1.1.1.129
+Last IP: 1.1.1.190
+Broadcast IP: 1.1.1.191
+
+4.Network(1.1.1.192):
+First IP: 1.1.1.193
+Last IP: 1.1.1.254
+Broadcast IP: 1.1.1.255
+
+
+
+Total Subnet Count: 4
+Total IP Count by Subnet: 64

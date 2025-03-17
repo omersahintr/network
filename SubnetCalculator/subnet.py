@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import scrolledtext
-
+import os
 
 ip_address=[0,0,0,0]
 subnet_mask=0
@@ -25,12 +25,12 @@ tk_ent_ip_block_C = tk.Entry(width=3)
 tk_ent_ip_block_D = tk.Entry(width=3)
 
 #Spin:
-tk_spin_subnet_count = tk.Spinbox(from_=1, to=16, increment=1, width=3, state="readonly", command=lambda:selected_spin)
+tk_spin_subnet_count = tk.Spinbox(from_=1, to=8, increment=1, width=3, state="readonly", command=lambda:selected_spin)
 
 #Buttons:
 tk_btn_calculate = tk.Button(text="Calculate", font=("Arial",14,"bold"), command=lambda:result_print())
 tk_btn_reset_form = tk.Button(text="Reset", font=("Arial",14,""), command=lambda:reset_form())
-
+tk_btn_print = tk.Button(text="Print", font=("Arial",14,""), command=lambda:print_form())
 #Scrolled Text:
 tk_text_result = scrolledtext.ScrolledText(width=70,height=30, font=("Courier",14))
 
@@ -41,8 +41,11 @@ def reset_form():
     tk_text_result.delete(1.0, tk.END)
     tk_spin_subnet_count.delete(0,"end")
     tk_ent_ip_block_A.focus()
-
-
+   
+def print_form():
+    stringData = tk_text_result.get(1.0,tk.END)
+    os.path.join(os.getcwd(),".","ee.pdf")
+    
 
 def selected_spin():
     subnet_count = tk_spin_subnet_count.get()
@@ -57,37 +60,39 @@ def result_print():
 
     i=1; a=1
     count = int(selected_spin())
-    pows = int(pow(2,count)-2)
-    increase = int(pows/count)
+    subnet = int(pow(2,count))
+    increase = int(pow(2,(8-count)))
+   
+    #print(f"count:{count}\nsubnet:{subnet}\nincrease:{increase}")
+
     result = ""; tk_text_result.delete(1.0, tk.END)
 
+    firstIP = a
+    lastIP = increase-2
+    broadcastIP = lastIP + 1
+    result+= f"{i}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}):\n"
+    result+= f"First IP: {ip_A}.{ip_B}.{ip_C}.{firstIP}\n"
+    result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
+    result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
+
+
     while(True):
-        firstIP = a
-        lastIP = increase
+        firstIP = firstIP+increase
+        lastIP = lastIP+increase
         broadcastIP = lastIP + 1
-        result+= f"{i}.Network:\n"
+        result+= f"{i+1}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}):\n"
         result+= f"First IP: {ip_A}.{ip_B}.{ip_C}.{firstIP}\n"
         result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
         result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
-        
+        i+= 1
+
         if i == int(pow(2,count)):
             break
-        else:
-            i+= 1
-            a+=increase
 
 
+    result+=f"\n\nTotal Subnet Count: {subnet}"
+    result+=f"\nTotal IP Count by Subnet: {increase}"       
     tk_text_result.insert(tk.INSERT, chars = result)
-    
-
-    
-
-"""    tk_text_result.insert(tk.INSERT, chars=(f"{ip_A}\n"))
-    tk_text_result.insert(tk.INSERT, chars=(f"{subnet}\n"))"""
-
-
-
-
 
 
 dx=0; dy=0
@@ -102,14 +107,13 @@ tk_ent_ip_block_D.place(x=dx+205, y=dy+10)
 tk_ent_ip_block_D.insert(0,"X")
 tk_ent_ip_block_D.config(state="readonly")
 
-
-
 tk_lbl_subnet_count.place(x=dx+10,y=dy+50)
 tk_spin_subnet_count.place(x=dx+103, y=dy+45)
 
-tk_btn_calculate.place(x=dx+155,y=dx+45)
-tk_btn_reset_form.place(x=dx+260, y=dy+45)
+tk_btn_calculate.place(x=dx+155,y=dy+45)
+tk_btn_print.place(x=dx+260, y=dy+45)
+tk_btn_reset_form.place(x=dx+320, y=dy+45)
 
-tk_text_result.place(x=dx+10,y=dx+90)
+tk_text_result.place(x=dx+10,y=dy+90)
 
 window.mainloop()
