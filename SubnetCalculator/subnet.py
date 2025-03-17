@@ -96,7 +96,7 @@ def result_print():
     except:
         tk_text_result.delete(1.0, tk.END)
         tk_text_result.config(font=("Arial",14,"bold"),fg="red")
-        tk_text_result.insert(tk.INSERT, chars = "Please enter IP Address")
+        tk_text_result.insert(tk.INSERT, chars = "Please Enter Your IP Address Completely")
 
 dx=0; dy=0
 tk_lbl_ip.place(x=dx+10, y=dy+10)
@@ -111,11 +111,11 @@ tk_ent_ip_block_D.insert(0," X")
 tk_ent_ip_block_D.config(state="readonly")
 
 tk_lbl_subnet_count.place(x=dx+10,y=dy+50)
-tk_spin_subnet_count.place(x=dx+103, y=dy+45)
+tk_spin_subnet_count.place(x=dx+123, y=dy+45)
 
-tk_btn_calculate.place(x=dx+155,y=dy+45)
-tk_btn_print.place(x=dx+250, y=dy+45)
-tk_btn_reset_form.place(x=dx+310, y=dy+45)
+tk_btn_calculate.place(x=dx+175,y=dy+45)
+tk_btn_print.place(x=dx+270, y=dy+45)
+tk_btn_reset_form.place(x=dx+330, y=dy+45)
 
 tk_text_result.place(x=dx+10,y=dy+90)
 
