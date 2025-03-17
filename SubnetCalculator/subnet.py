@@ -16,7 +16,7 @@ tk_lbl_ip = tk.Label(text="Ip Address:")
 tk_lbl_point_1 = tk.Label(text=".")
 tk_lbl_point_2 = tk.Label(text=".")
 tk_lbl_point_3 = tk.Label(text=".")
-tk_lbl_subnet_count = tk.Label(text="Subnet Count:")
+tk_lbl_subnet_count = tk.Label(text="Subnet Divisions:")
 
 #Entry's:
 tk_ent_ip_block_A = tk.Entry(width=3)
