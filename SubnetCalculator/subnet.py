@@ -12,7 +12,7 @@ result=""
 
 window = tk.Tk()
 window.title("Subnet Calculator")
-window.minsize(width=600, height=600)
+window.minsize(width=660, height=600)
 
 #label:
 tk_lbl_ip = tk.Label(text="Ip Address:")
@@ -21,7 +21,7 @@ tk_lbl_point_2 = tk.Label(text=".")
 tk_lbl_point_3 = tk.Label(text=".")
 tk_lbl_subnet_count = tk.Label(text="Subnet Divisions:")
 
-logo = PhotoImage(file="SubnetCalculator/network-logo-1.jpg")
+logo = PhotoImage(file="SubnetCalculator/network-logo.png")
 
 
 tk_lbl_image = Label(window, image=logo)
@@ -41,7 +41,7 @@ tk_btn_calculate = tk.Button(text="Calculate", font=("Arial",14,"bold"), command
 tk_btn_reset_form = tk.Button(text="Reset", font=("Arial",14,""), command=lambda:reset_form())
 tk_btn_print = tk.Button(text="Print", font=("Arial",14,""), command=lambda:print_form())
 #Scrolled Text:
-tk_text_result = scrolledtext.ScrolledText(width=70,height=30, font=("Courier",14))
+tk_text_result = scrolledtext.ScrolledText(width=75,height=30, font=("Courier",14))
 
 def reset_form():
     tk_ent_ip_block_A.delete(0,tk.END)
@@ -148,7 +148,7 @@ tk_lbl_point_3.place(x=dx+200,y=dy+10)
 tk_ent_ip_block_D.place(x=dx+205, y=dy+10)
 tk_ent_ip_block_D.insert(0," X")
 tk_ent_ip_block_D.config(state="readonly")
-tk_lbl_image.place(x=dx+400, y=dy+10)
+tk_lbl_image.place(x=dx+420, y=dy+10)
 
 tk_lbl_subnet_count.place(x=dx+10,y=dy+50)
 tk_spin_subnet_count.place(x=dx+123, y=dy+45)
@@ -157,6 +157,6 @@ tk_btn_calculate.place(x=dx+175,y=dy+45)
 tk_btn_print.place(x=dx+270, y=dy+45)
 tk_btn_reset_form.place(x=dx+330, y=dy+45)
 
-tk_text_result.place(x=dx+10,y=dy+90)
+tk_text_result.place(x=dx+10,y=dy+120)
 
 window.mainloop()
