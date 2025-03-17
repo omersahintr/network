@@ -1,11 +1,13 @@
 import tkinter as tk
 from tkinter import scrolledtext
+from tkinter import messagebox as mg
 #import ImageTk as img
 
 ip_address=[0,0,0,0]
 subnet_mask=0
 subnet_count=0
 result=""
+#mask_class=""
 
 window = tk.Tk()
 window.title("Subnet Calculator")
@@ -49,6 +51,18 @@ def selected_spin():
     subnet_count = tk_spin_subnet_count.get()
     return subnet_count
 
+def network_class(a,b,c):
+    if 1<=int(a)<128:
+        mask_class="A"
+    elif 128<=int(a)<192:
+        mask_class="B"
+    elif 192<=int(a)<=223:
+        mask_class="C"
+    else:
+        mask_class="X"
+    return mask_class
+        
+
 def result_print():
     #FORM-VARIABLES:
     
@@ -58,41 +72,59 @@ def result_print():
         ip_C = int(tk_ent_ip_block_C.get())
         #ip_D = int(tk_ent_ip_block_D.get())
 
-        i=1; a=1
-        count = int(selected_spin())
-        subnet = int(pow(2,count))
-        increase = int(pow(2,(8-count)))
-        subnet_mask = 256-increase
+        mm = network_class(ip_A,ip_B,ip_C)
+        
+        if mm!="X":
+            i=1; a=1
+            count = int(selected_spin())
+            subnet = int(pow(2,count))
+            increase = int(pow(2,(8-count)))
+            subnet_mask = 256-increase
 
-        result = ""
-        tk_text_result.delete(1.0, tk.END)
-        tk_text_result.config(font=("Arial",14,""),fg="black")
+            result = ""
+            tk_text_result.delete(1.0, tk.END)
+            tk_text_result.config(font=("Arial",14,""),fg="black")
 
-        firstIP = a
-        lastIP = increase-2
-        broadcastIP = lastIP + 1
-        result+= f"{i}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.255.{subnet_mask}):\n"
-        result+= f"First IP: {ip_A}.{ip_B}.{ip_C}.{firstIP}\n"
-        result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
-        result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
-
-
-        while(True):
-            firstIP = firstIP+increase
-            lastIP = lastIP+increase
+            firstIP = a
+            lastIP = increase-2
             broadcastIP = lastIP + 1
-            result+= f"{i+1}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.255.{subnet_mask}):\n"
+            if mm=="A":
+                result+= f"{i}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.{subnet_mask}.0.0):\n"
+            elif mm=="B":
+                result+= f"{i}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.{subnet_mask}.0):\n"
+            elif mm=="C":
+                result+= f"{i}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.255.{subnet_mask}):\n"
+
             result+= f"First IP: {ip_A}.{ip_B}.{ip_C}.{firstIP}\n"
             result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
             result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
-            i+= 1
 
-            if i == int(pow(2,count)):
-                break
+            while(True):
+                firstIP = firstIP+increase
+                lastIP = lastIP+increase
+                broadcastIP = lastIP + 1
+                if mm=="A":
+                    result+= f"{i+1}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.{subnet_mask}.0.0):\n"
+                elif mm=="B":
+                    result+= f"{i+1}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.{subnet_mask}.0):\n"
+                elif mm=="C":
+                    result+= f"{i+1}.Network({ip_A}.{ip_B}.{ip_C}.{firstIP-1}/255.255.255.{subnet_mask}):\n"
+                result+= f"First IP: {ip_A}.{ip_B}.{ip_C}.{firstIP}\n"
+                result+= f"Last IP: {ip_A}.{ip_B}.{ip_C}.{lastIP}\n"
+                result+= f"Broadcast IP: {ip_A}.{ip_B}.{ip_C}.{broadcastIP}\n\n"
+                i+= 1
+
+                if i == int(pow(2,count)):
+                    break
+
+        elif mm=="X":
+            mg.showerror("Warning","Out of IP Class Range")
+            tk_text_result.delete(1.0, tk.END)
 
         result+=f"\n\nTotal Subnet Count: {subnet}"
         result+=f"\nTotal IP Count by Subnet: {increase-2}"       
         tk_text_result.insert(tk.INSERT, chars = result)
+
     except:
         tk_text_result.delete(1.0, tk.END)
         tk_text_result.config(font=("Arial",14,"bold"),fg="red")
